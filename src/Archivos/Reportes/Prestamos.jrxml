@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Prestamos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="FieldCabeceraGrupo" hAlign="Left" vAlign="Middle" markup="styled" isBlankWhenNull="true" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="LabelCabeceraGrupo" hAlign="Left" vAlign="Middle" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="CabeceraColumnas" forecolor="#FFFFFF" hAlign="Left" vAlign="Middle" markup="styled" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString>
+		<![CDATA[SELECT p.id_prestamo id_prestamo, LPAD(p.id_prestamo, 6, '0') codigo, CONCAT(u.nombres, ' ', u.apellidos) usuario, u.cedula cedula,
+p.fecha_prestamo fecha_prestamo, p.fecha_vencimiento fecha_vencimiento,
+CONCAT(l.cota, ' e.', e.numero) cota, l.titulo titulo, p.observacion
+FROM prestamos p, libro_prestamo lp, ejemplares e, libros l, usuarios u
+WHERE p.id_prestamo=lp.id_prestamo AND lp.id_ejemplar=e.id_ejemplar AND e.id_libro=l.id_libro AND p.id_usuario=u.id_usuario
+ORDER BY p.id_prestamo]]>
+	</queryString>
+	<field name="id_prestamo" class="java.lang.Integer"/>
+	<field name="codigo" class="java.lang.Object"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="cedula" class="java.lang.String"/>
+	<field name="fecha_prestamo" class="java.sql.Date"/>
+	<field name="fecha_vencimiento" class="java.sql.Date"/>
+	<field name="cota" class="java.lang.Object"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<group name="Prestamo" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{id_prestamo}]]></groupExpression>
+		<groupHeader>
+			<band height="106">
+				<textField>
+					<reportElement style="FieldCabeceraGrupo" x="60" y="7" width="319" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{usuario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="FieldCabeceraGrupo" x="60" y="27" width="144" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="LabelCabeceraGrupo" x="5" y="7" width="55" height="20"/>
+					<textElement/>
+					<text><![CDATA[Usuario:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="LabelCabeceraGrupo" x="5" y="26" width="55" height="20"/>
+					<textElement/>
+					<text><![CDATA[Cédula:]]></text>
+				</staticText>
+				<rectangle radius="10">
+					<reportElement x="439" y="7" width="116" height="39"/>
+				</rectangle>
+				<textField>
+					<reportElement x="439" y="18" width="116" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="LabelCabeceraGrupo" x="5" y="46" width="55" height="20"/>
+					<textElement/>
+					<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement style="FieldCabeceraGrupo" x="60" y="47" width="144" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha_prestamo}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement style="CabeceraColumnas" x="0" y="79" width="555" height="26" forecolor="#999999" backcolor="#999999"/>
+				</rectangle>
+				<staticText>
+					<reportElement style="CabeceraColumnas" x="0" y="83" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Cota]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="CabeceraColumnas" x="131" y="83" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Título]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField isStretchWithOverflow="true">
+					<reportElement style="FieldCabeceraGrupo" x="0" y="20" width="533" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{observacion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="LabelCabeceraGrupo" x="0" y="0" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Observaciones:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="3" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="6" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="7" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="119" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="0" width="308" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="6" splitType="Stretch"/>
+	</summary>
+</jasperReport>
